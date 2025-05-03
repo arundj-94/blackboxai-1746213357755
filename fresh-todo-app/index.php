@@ -55,92 +55,99 @@
         </nav>
 
         <!-- Main content -->
-        <div class="flex-grow ml-0 md:ml-6 flex flex-col">
-            <h1 class="text-4xl font-bold mb-6 text-center md:text-left text-gray-800">Fresh PHP ToDo App</h1>
+    <div class="flex-grow ml-0 md:ml-6 flex flex-col">
+        <h1 class="text-4xl font-bold mb-6 text-center md:text-left text-gray-800">Fresh PHP ToDo App</h1>
 
-            <form id="task-form" class="mb-6 space-y-4 max-w-4xl mx-auto md:mx-0">
-                <input type="hidden" id="task-id" />
-                <div>
-                    <label for="title" class="block text-gray-700 font-semibold mb-1">Title <span class="text-red-500">*</span></label>
-                    <input type="text" id="title" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-                </div>
-                <div>
-                    <label for="description" class="block text-gray-700 font-semibold mb-1">Description</label>
-                    <textarea id="description" rows="3" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div>
-                        <label for="due_date" class="block text-gray-700 font-semibold mb-1">Due Date</label>
-                        <input type="date" id="due_date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div>
-                        <label for="priority" class="block text-gray-700 font-semibold mb-1">Priority</label>
-                        <select id="priority" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="Low">Low</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="category" class="block text-gray-700 font-semibold mb-1">Category</label>
-                        <select id="category" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="">None</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="repetition" class="block text-gray-700 font-semibold mb-1">Repetition</label>
-                        <select id="repetition" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="None" selected>None</option>
-                            <option value="Daily">Daily</option>
-                            <option value="Weekly">Weekly</option>
-                            <option value="Monthly">Monthly</option>
-                            <option value="Yearly">Yearly</option>
-                        </select>
-                    </div>
-                </div>
+        <button id="open-task-form-btn" class="mb-6 bg-blue-600 text-white font-semibold rounded px-6 py-2 hover:bg-blue-700 transition max-w-xs mx-auto md:mx-0">Add Task</button>
 
-                <div id="repetition-details" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 hidden">
-                    <div id="weekly-options" class="hidden">
-                        <label class="block text-gray-700 font-semibold mb-1">Select Days of Week</label>
-                        <div class="flex space-x-2">
-                            <label><input type="checkbox" value="Mon" class="weekday-checkbox" /> Mon</label>
-                            <label><input type="checkbox" value="Tue" class="weekday-checkbox" /> Tue</label>
-                            <label><input type="checkbox" value="Wed" class="weekday-checkbox" /> Wed</label>
-                            <label><input type="checkbox" value="Thu" class="weekday-checkbox" /> Thu</label>
-                            <label><input type="checkbox" value="Fri" class="weekday-checkbox" /> Fri</label>
-                            <label><input type="checkbox" value="Sat" class="weekday-checkbox" /> Sat</label>
-                            <label><input type="checkbox" value="Sun" class="weekday-checkbox" /> Sun</label>
+        <div id="task-form-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
+                <button id="close-task-form-btn" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">&times;</button>
+                <form id="task-form" class="space-y-4">
+                    <input type="hidden" id="task-id" />
+                    <div>
+                        <label for="title" class="block text-gray-700 font-semibold mb-1">Title <span class="text-red-500">*</span></label>
+                        <input type="text" id="title" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    </div>
+                    <div>
+                        <label for="description" class="block text-gray-700 font-semibold mb-1">Description</label>
+                        <textarea id="description" rows="3" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label for="due_date" class="block text-gray-700 font-semibold mb-1">Due Date</label>
+                            <input type="date" id="due_date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <div>
+                            <label for="priority" class="block text-gray-700 font-semibold mb-1">Priority</label>
+                            <select id="priority" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="category" class="block text-gray-700 font-semibold mb-1">Category</label>
+                            <select id="category" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="repetition" class="block text-gray-700 font-semibold mb-1">Repetition</label>
+                            <select id="repetition" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="None" selected>None</option>
+                                <option value="Daily">Daily</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
                         </div>
                     </div>
-                    <div id="monthly-options" class="hidden">
-                        <label for="monthly-day" class="block text-gray-700 font-semibold mb-1">Day of Month (1-31)</label>
-                        <input type="number" id="monthly-day" min="1" max="31" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div id="yearly-options" class="hidden">
-                        <label for="yearly-month" class="block text-gray-700 font-semibold mb-1">Month</label>
-                        <select id="yearly-month" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                        <label for="yearly-day" class="block text-gray-700 font-semibold mb-1 mt-2">Day</label>
-                        <input type="number" id="yearly-day" min="1" max="31" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                </div>
 
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-600 text-white font-semibold rounded px-6 py-2 hover:bg-blue-700 transition">Add Task</button>
-                </div>
-            </form>
+                    <div id="repetition-details" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 hidden">
+                        <div id="weekly-options" class="hidden">
+                            <label class="block text-gray-700 font-semibold mb-1">Select Days of Week</label>
+                            <div class="flex space-x-2">
+                                <label><input type="checkbox" value="Mon" class="weekday-checkbox" /> Mon</label>
+                                <label><input type="checkbox" value="Tue" class="weekday-checkbox" /> Tue</label>
+                                <label><input type="checkbox" value="Wed" class="weekday-checkbox" /> Wed</label>
+                                <label><input type="checkbox" value="Thu" class="weekday-checkbox" /> Thu</label>
+                                <label><input type="checkbox" value="Fri" class="weekday-checkbox" /> Fri</label>
+                                <label><input type="checkbox" value="Sat" class="weekday-checkbox" /> Sat</label>
+                                <label><input type="checkbox" value="Sun" class="weekday-checkbox" /> Sun</label>
+                            </div>
+                        </div>
+                        <div id="monthly-options" class="hidden">
+                            <label for="monthly-day" class="block text-gray-700 font-semibold mb-1">Day of Month (1-31)</label>
+                            <input type="number" id="monthly-day" min="1" max="31" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <div id="yearly-options" class="hidden">
+                            <label for="yearly-month" class="block text-gray-700 font-semibold mb-1">Month</label>
+                            <select id="yearly-month" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <label for="yearly-day" class="block text-gray-700 font-semibold mb-1 mt-2">Day</label>
+                            <input type="number" id="yearly-day" min="1" max="31" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-600 text-white font-semibold rounded px-6 py-2 hover:bg-blue-700 transition">Add Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
             <div id="tasks-list" class="space-y-4 max-w-4xl mx-auto md:mx-0 overflow-y-auto flex-grow">
                 <!-- Tasks will be rendered here -->
@@ -438,6 +445,8 @@
                 due_date: dueDateInput.value || null,
                 priority: priorityInput.value,
                 category_id: categorySelect.value || null,
+                repetition: repetitionSelect.value,
+                repetition_details: getRepetitionDetails()
             };
 
             if (!taskData.title) {
@@ -496,6 +505,63 @@
             refreshRepeatBtn.disabled = false;
             refreshRepeatBtn.textContent = 'Refresh Repeated Tasks';
         });
+
+        // Search functionality
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.placeholder = 'Search tasks...';
+        searchInput.className = 'mb-4 w-full max-w-4xl mx-auto md:mx-0 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500';
+        tasksList.parentNode.insertBefore(searchInput, tasksList);
+
+        searchInput.addEventListener('input', () => {
+            const filter = searchInput.value.toLowerCase();
+            const taskItems = tasksList.querySelectorAll('div[draggable="true"]');
+            taskItems.forEach(item => {
+                const title = item.querySelector('span.font-semibold').textContent.toLowerCase();
+                const description = item.querySelector('span.text-gray-600').textContent.toLowerCase();
+                if (title.includes(filter) || description.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Move to Today button for tasks with other dates
+        function addMoveToTodayButtons() {
+            const taskItems = tasksList.querySelectorAll('div[draggable="true"]');
+            taskItems.forEach(item => {
+                const dueDateSpan = item.querySelector('span.text-gray-500');
+                if (!dueDateSpan) return;
+                const dueDate = new Date(dueDateSpan.textContent);
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                if (dueDate.getTime() !== today.getTime() && currentFilter !== 'today') {
+                    if (!item.querySelector('.move-to-today-btn')) {
+                        const btn = document.createElement('button');
+                        btn.textContent = 'Move to Today';
+                        btn.className = 'move-to-today-btn bg-yellow-400 text-white px-2 py-1 rounded ml-4 hover:bg-yellow-500 transition text-sm';
+                        btn.addEventListener('click', async () => {
+                            const id = item.dataset.id;
+                            await fetch(`tasks.php?id=${id}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ due_date: new Date().toISOString().split("T")[0] })
+                            });
+                            fetchTasks();
+                        });
+                        item.querySelector('div.flex.items-center.space-x-4.mt-4.md\\:mt-0').appendChild(btn);
+                    }
+                }
+            });
+        }
+
+        // Modify renderTasks to call addMoveToTodayButtons after rendering
+        const originalRenderTasks = renderTasks;
+        renderTasks = function(tasks) {
+            originalRenderTasks(tasks);
+            addMoveToTodayButtons();
+        };
 
         // Drag and drop functionality
         let dragSrcEl = null;

@@ -83,6 +83,8 @@ switch ($method) {
         $priority = isset($data['priority']) ? $data['priority'] : 'Medium';
         $status = 'Pending';
         $category_id = isset($data['category_id']) ? $data['category_id'] : null;
+        $repetition = isset($data['repetition']) ? $data['repetition'] : 'None';
+        $repetition_details = isset($data['repetition_details']) ? $data['repetition_details'] : null;
 
         $stmt = $pdo->prepare('INSERT INTO tasks (title, description, due_date, priority, status, category_id, order_index) VALUES (?, ?, ?, ?, ?, ?, ?)');
         // Set order_index to max + 1
@@ -92,6 +94,11 @@ switch ($method) {
 
         $stmt->execute([$title, $description, $due_date, $priority, $status, $category_id, $order_index]);
         $id = $pdo->lastInsertId();
+
+        if ($repetition !== 'None') {
+            $repeatStmt = $pdo->prepare('INSERT INTO repeated_tasks (task_id, repetition, repetition_details, last_added_date) VALUES (?, ?, ?, NULL)');
+            $repeatStmt->execute([$id, $repetition, $repetition_details]);
+        }
 
         http_response_code(201);
         echo json_encode(['id' => $id]);

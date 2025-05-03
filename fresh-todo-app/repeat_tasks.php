@@ -70,13 +70,14 @@ function getNextOccurrence($repetition, $details, $lastDate) {
 
 try {
     $todayStr = (new DateTime())->format('Y-m-d');
-    $stmt = $pdo->prepare("SELECT rt.*, t.title, t.description, t.priority, t.category_id FROM repeated_tasks rt JOIN tasks t ON rt.task_id = t.id WHERE rt.last_added_date IS NULL OR rt.last_added_date < ?");
+    $stmt = $pdo->prepare("SELECT rt.*, t.title, t.description, t.priority, t.category_id, t.due_date AS original_due_date FROM repeated_tasks rt JOIN tasks t ON rt.task_id = t.id WHERE rt.last_added_date IS NULL OR rt.last_added_date < ?");
     $stmt->execute([$todayStr]);
     $repeats = $stmt->fetchAll();
 
     foreach ($repeats as $repeat) {
         $details = json_decode($repeat['repetition_details'], true);
-        $nextDate = getNextOccurrence($repeat['repetition'], $details, $repeat['last_added_date']);
+        $baseDate = $repeat['last_added_date'] ?? $repeat['original_due_date'];
+        $nextDate = getNextOccurrence($repeat['repetition'], $details, $baseDate);
 
         if ($nextDate && $nextDate <= $todayStr) {
             // Insert new task occurrence
